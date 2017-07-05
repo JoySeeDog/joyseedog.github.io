@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="iOS开发进阶-用最简单的方式自定义TabBar"/>
+
+
+
+
+  <meta name="keywords" content="iOS自定义TabBar,自定义Tabbar," />
+
+
+
+
+  <link rel="alternate" href="/default" title="See me like see you">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://www.iseedog.com/2016/10/28/ios-tabbar/"/>
+
+
+<meta name="description" content="本文将从一个具体的实例出发，介绍如何比较简单的自定义类似咸鱼的TabBar。">
+<meta name="keywords" content="iOS自定义TabBar,自定义Tabbar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发进阶-用最简单的方式自定义TabBar">
+<meta property="og:url" content="http://www.iseedog.com/2016/10/28/ios-tabbar/index.html">
+<meta property="og:site_name" content="See me like see you">
+<meta property="og:description" content="本文将从一个具体的实例出发，介绍如何比较简单的自定义类似咸鱼的TabBar。">
+<meta property="og:image" content="http://img.blog.csdn.net/20161028000521408">
+<meta property="og:image" content="http://img.blog.csdn.net/20161028003432921">
+<meta property="og:updated_time" content="2017-03-20T15:53:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发进阶-用最简单的方式自定义TabBar">
+<meta name="twitter:description" content="本文将从一个具体的实例出发，介绍如何比较简单的自定义类似咸鱼的TabBar。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161028000521408">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: false,
+    searchPath: "/search.xml",
+    fancybox: false,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> iOS开发进阶-用最简单的方式自定义TabBar · See me like see you </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">See me like see you</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">See me like see you</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          iOS开发进阶-用最简单的方式自定义TabBar
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Oct 28, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#年轻的想法"><span class="toc-text">年轻的想法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网上资料"><span class="toc-text">网上资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本思路"><span class="toc-text">基本思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#圆形按钮"><span class="toc-text">圆形按钮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选中之后的小半圆"><span class="toc-text">选中之后的小半圆</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待改进"><span class="toc-text">待改进</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>本文将从一个具体的实例出发，介绍如何比较简单的自定义类似咸鱼的TabBar。</p>
+</blockquote>
+ <a id="more"></a>
+<p>UI设计了一个很有趣的需求。就是在TabBar点击的时候，下面的文字需要变成一个图片。具体看图片，就是红色箭头这里。<br><img src="http://img.blog.csdn.net/20161028000521408" alt="这里写图片描述"></p>
+<h2 id="年轻的想法"><a href="#年轻的想法" class="headerlink" title="年轻的想法"></a>年轻的想法</h2><p>有的开发者可能会想，TabBar自定义太麻烦了，美工改设计吧。有的可能会想，让美工切一个很大的图。不就可以直接覆盖了吗。道理并没有错。不过写代码还是需要有一点追求嘛。</p>
+<h2 id="网上资料"><a href="#网上资料" class="headerlink" title="网上资料"></a>网上资料</h2><p>网上很多资料都主要是自定义了中间那个圆形的按钮，而且大部分还是使用了比较复杂的方法，重写了TabBar，代码也很多，看着就觉得头晕。所以索性还是自己琢磨琢磨。</p>
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><h3 id="圆形按钮"><a href="#圆形按钮" class="headerlink" title="圆形按钮"></a>圆形按钮</h3><p>中间那个圆形的按钮，我们只需要在Tabbar上面再加一个Button不就好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2-37.5 , -15, 75, 75)];</div><div class="line"></div><div class="line">button.layer.cornerRadius = 37.5;</div><div class="line">button.layer.masksToBounds = YES;</div><div class="line"></div><div class="line">[button setBackgroundColor:[UIColor purpleColor]];</div><div class="line">button.imageView.contentMode = UIViewContentModeScaleAspectFit;</div><div class="line">[button setImage:[UIImage imageNamed:@&quot;main_live&quot;] forState:UIControlStateNormal];</div><div class="line">[self.tabBar addSubview:button];</div><div class="line">[self.tabBar bringSubviewToFront:button];</div><div class="line">[button addTarget:self action:@selector(selectImagePicker) forControlEvents:UIControlEventTouchUpInside];</div></pre></td></tr></table></figure>
+<h3 id="选中之后的小半圆"><a href="#选中之后的小半圆" class="headerlink" title="选中之后的小半圆"></a>选中之后的小半圆</h3><p>一开始的思路打算选中的时候替换文本。这个可以在在<code>UITabBarControllerDelegate</code>的代理方法里实现，可是要打出来那个半圆形的字符还是有点难。</p>
+<p>然后想到的是在上面加<code>ImageView</code>的方式进行解决，怎么加又是一个问题，因为需要和选中的状态联动起来。还有就是加到哪里，总不能自己去算位置。于是我看了一下<code>TabBar</code>的图层结构，我们可以使用它下面的子视图来定位计算我们的<code>ImageView</code>要加到哪里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">for (UIView *UITabBarButton in self.tabBar.subviews) &#123;</div><div class="line">    </div><div class="line">       if ([@&quot;UITabBarButton&quot; isEqualToString:NSStringFromClass([UITabBarButton class])]) &#123;</div><div class="line">         </div><div class="line">           UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(UITabBarButton.frame.origin.x+UITabBarButton.frame.size.width/2-5, UITabBarButton.frame.origin.y+UITabBarButton.frame.size.height-5, 10, 5)];</div><div class="line">           imageView.image = [UIImage imageNamed:@&quot;main_point&quot;];</div><div class="line">           [self.tabBar addSubview:imageView];</div><div class="line">                  &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>另外一个问题就是如何在选中Tab的时候，隐藏文字显示小半圆呢，我的做法是定义了一个数组用来存储<code>imageView</code>然后在代理方法里面进行隐藏和显示的处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i&lt;self.jqTabBarViewController.customSelectViews.count;i++) &#123;</div><div class="line">        UIImageView *imageView = [self.jqTabBarViewController.customSelectViews objectAtIndex:i];</div><div class="line">        if (i == self.jqTabBarViewController.selectedIndex) &#123;</div><div class="line">            imageView.hidden = NO;</div><div class="line">        &#125;else &#123;</div><div class="line">            imageView.hidden = YES;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>最后的效果如下：<br><img src="http://img.blog.csdn.net/20161028003432921" alt="这里写图片描述"></p>
+<h2 id="待改进"><a href="#待改进" class="headerlink" title="待改进"></a>待改进</h2><p>需要改进的是中间那个点击区域的范围。超出TabBar的区域不能点击，我看了咸鱼还有一些应用有这个问题。解决的方式就是自定义一个TabBar，这样我也试过，不过这样下面那个半圆的选中按钮就会出问题，不能两者都达到要求。如果有好的思路可以给我留言。</p>
+<p>Demo地址：<a href="https://github.com/joyseedog/JQCustomTabbar" target="_blank" rel="external">JQCustomTabbar</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>joyseedog</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.iseedog.com">http://www.iseedog.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.iseedog.com/2016/10/28/ios-tabbar/">http://www.iseedog.com/2016/10/28/ios-tabbar/</a>
+    </p>
+
+    <p class="copyright-item lincese">
+      
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/iOS自定义TabBar/">iOS自定义TabBar</a>
+            
+              <a href="/tags/自定义Tabbar/">自定义Tabbar</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/10/28/ios-pickview/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">iOS开发进阶-自定义UIPickView</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/09/21/xcode-source-editor/">
+        <span class="next-text nav-default">使用 Xcode Source Editor Extension开发Xcode 8 插件</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:joyseedog@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">joyseedog</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  </body>
+</html>

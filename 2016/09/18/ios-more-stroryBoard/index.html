@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="iOS开发进阶-使用多个StoryBoard划分项目"/>
+
+
+
+
+  <meta name="keywords" content="iOS开发进阶,使用多个StoryBoard," />
+
+
+
+
+  <link rel="alternate" href="/default" title="See me like see you">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://www.iseedog.com/2016/09/18/ios-more-stroryBoard/"/>
+
+
+<meta name="description" content="前言：在实际来发中，作者一般都是使用纯代码的方式进行开发，国内很多开发者都喜欢使用纯代码进行开发，一方面是代码可维护性比较高，另一方面也是因为StoryBoard团队协作的诟病。不过如果把一个项目拆分为多个StroyBoard，不同的人负责不同的模块，那就能很好的解决一些问题。本文主要讲解如何把一个项目拆分在多个StoryBoard上。">
+<meta name="keywords" content="iOS开发进阶,使用多个StoryBoard">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发进阶-使用多个StoryBoard划分项目">
+<meta property="og:url" content="http://www.iseedog.com/2016/09/18/ios-more-stroryBoard/index.html">
+<meta property="og:site_name" content="See me like see you">
+<meta property="og:description" content="前言：在实际来发中，作者一般都是使用纯代码的方式进行开发，国内很多开发者都喜欢使用纯代码进行开发，一方面是代码可维护性比较高，另一方面也是因为StoryBoard团队协作的诟病。不过如果把一个项目拆分为多个StroyBoard，不同的人负责不同的模块，那就能很好的解决一些问题。本文主要讲解如何把一个项目拆分在多个StoryBoard上。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160918230605718">
+<meta property="og:image" content="http://img.blog.csdn.net/20160918230941189">
+<meta property="og:image" content="http://img.blog.csdn.net/20160918232544336">
+<meta property="og:updated_time" content="2017-03-20T15:52:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发进阶-使用多个StoryBoard划分项目">
+<meta name="twitter:description" content="前言：在实际来发中，作者一般都是使用纯代码的方式进行开发，国内很多开发者都喜欢使用纯代码进行开发，一方面是代码可维护性比较高，另一方面也是因为StoryBoard团队协作的诟病。不过如果把一个项目拆分为多个StroyBoard，不同的人负责不同的模块，那就能很好的解决一些问题。本文主要讲解如何把一个项目拆分在多个StoryBoard上。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160918230605718">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: false,
+    searchPath: "/search.xml",
+    fancybox: false,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> iOS开发进阶-使用多个StoryBoard划分项目 · See me like see you </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">See me like see you</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">See me like see you</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          iOS开发进阶-使用多个StoryBoard划分项目
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Sep 18, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#正确的命名"><span class="toc-text">正确的命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重写UIStoryboardSegue类"><span class="toc-text">重写UIStoryboardSegue类</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>前言：在实际来发中，作者一般都是使用纯代码的方式进行开发，国内很多开发者都喜欢使用纯代码进行开发，一方面是代码可维护性比较高，另一方面也是因为StoryBoard团队协作的诟病。不过如果把一个项目拆分为多个StroyBoard，不同的人负责不同的模块，那就能很好的解决一些问题。本文主要讲解如何把一个项目拆分在多个StoryBoard上。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="正确的命名"><a href="#正确的命名" class="headerlink" title="正确的命名"></a>正确的命名</h2><p>首先我们在原有的StroyBoard的基础上，再新建两个StroyBoard文件，其中一个命名为first，一个命名为second。<br><img src="http://img.blog.csdn.net/20160918230605718" alt="这里写图片描述"></p>
+<p>再打开main.StroyBoard文件，拖入两个View，使用Segue进行连接，注意着两个Segue的命名，一定要和StroyBoard的名字一样（具体原因待会我会讲到），如下图所示。<br><img src="http://img.blog.csdn.net/20160918230941189" alt="这里写图片描述"></p>
+<h2 id="重写UIStoryboardSegue类"><a href="#重写UIStoryboardSegue类" class="headerlink" title="重写UIStoryboardSegue类"></a>重写UIStoryboardSegue类</h2><p>新建Objective文件，继承<code>UIStoryboardSegue</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@interface JQStoryboardSegue : UIStoryboardSegue</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>重写下面两个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- (instancetype)initWithIdentifier:(nullable NSString *)identifier source:(UIViewController *)source destination:(UIViewController *)destination &#123;</div><div class="line">    </div><div class="line">    UIStoryboard *externStroyBoard = [UIStoryboard  storyboardWithName:identifier bundle:[NSBundle bundleForClass:self.class]];</div><div class="line">    </div><div class="line">    id initViewController = [externStroyBoard instantiateInitialViewController];</div><div class="line">    </div><div class="line">    return [super initWithIdentifier:identifier source:source destination:initViewController];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)perform</div><div class="line">&#123;</div><div class="line">    [self.sourceViewController presentViewController:self.destinationViewController animated:YES completion:NULL];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从代码中我们可以来解释之前所说的为什么Segue的名字要和需要跳转的StoryBoard名字一样。<code>[NSBundle bundleForClass:self.class]</code> 这样就可以把这个新建的类抽象出来，适用于同样场景的跳转。<code>perform</code>方法指明了跳转的源控制器和目的控制器。自定义动画等也需要在这里实现，不过本文暂不介绍这方面的内容。</p>
+<p>重写这个类之后，我们记得打开main.StoryBoard。把两个Segue的类修改为刚才新建的类。</p>
+<p><img src="http://img.blog.csdn.net/20160918232544336" alt="这里写图片描述"></p>
+<p><a href="https://github.com/joyseedog/UseStoryBoard" target="_blank" rel="external">Demo下载地址</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>joyseedog</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.iseedog.com">http://www.iseedog.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.iseedog.com/2016/09/18/ios-more-stroryBoard/">http://www.iseedog.com/2016/09/18/ios-more-stroryBoard/</a>
+    </p>
+
+    <p class="copyright-item lincese">
+      
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/iOS开发进阶/">iOS开发进阶</a>
+            
+              <a href="/tags/使用多个StoryBoard/">使用多个StoryBoard</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/09/21/xcode-source-editor/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">使用 Xcode Source Editor Extension开发Xcode 8 插件</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/09/18/ios-xcode8-simulator/">
+        <span class="next-text nav-default">xcode8更新后模拟器不见了</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:joyseedog@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">joyseedog</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  </body>
+</html>

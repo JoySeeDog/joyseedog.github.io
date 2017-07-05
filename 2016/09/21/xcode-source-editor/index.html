@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="使用 Xcode Source Editor Extension开发Xcode 8 插件"/>
+
+
+
+
+  <meta name="keywords" content="Source Editor Extension,Xcode8插件," />
+
+
+
+
+  <link rel="alternate" href="/default" title="See me like see you">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://www.iseedog.com/2016/09/21/xcode-source-editor/"/>
+
+
+<meta name="description" content="前言Xcode是一个每天都有成千上万开发者使用的IDE（ 集成开发环境），它是一个非棒棒的工具，但是有时候为了提高开发效率你可能想自定义一些它的特性和行为。 在Xcode 7的时候，开发者可以在Xccode运行的时候通过注入代码去实现插件的功能。插件可以在一个Alcatraz这个优秀的APP上面提交和分发。不过这一切在在Xcode 8上已经不再可能。">
+<meta name="keywords" content="Source Editor Extension,Xcode8插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Xcode Source Editor Extension开发Xcode 8 插件">
+<meta property="og:url" content="http://www.iseedog.com/2016/09/21/xcode-source-editor/index.html">
+<meta property="og:site_name" content="See me like see you">
+<meta property="og:description" content="前言Xcode是一个每天都有成千上万开发者使用的IDE（ 集成开发环境），它是一个非棒棒的工具，但是有时候为了提高开发效率你可能想自定义一些它的特性和行为。 在Xcode 7的时候，开发者可以在Xccode运行的时候通过注入代码去实现插件的功能。插件可以在一个Alcatraz这个优秀的APP上面提交和分发。不过这一切在在Xcode 8上已经不再可能。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921001536775">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921001618229">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921001847553">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921001953196">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921002052340">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921002225153">
+<meta property="og:image" content="http://img.blog.csdn.net/20160921002302841">
+<meta property="og:updated_time" content="2017-03-20T15:55:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Xcode Source Editor Extension开发Xcode 8 插件">
+<meta name="twitter:description" content="前言Xcode是一个每天都有成千上万开发者使用的IDE（ 集成开发环境），它是一个非棒棒的工具，但是有时候为了提高开发效率你可能想自定义一些它的特性和行为。 在Xcode 7的时候，开发者可以在Xccode运行的时候通过注入代码去实现插件的功能。插件可以在一个Alcatraz这个优秀的APP上面提交和分发。不过这一切在在Xcode 8上已经不再可能。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160921001536775">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: false,
+    searchPath: "/search.xml",
+    fancybox: false,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> 使用 Xcode Source Editor Extension开发Xcode 8 插件 · See me like see you </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">See me like see you</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">See me like see you</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          使用 Xcode Source Editor Extension开发Xcode 8 插件
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Sep 21, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-好的开端"><span class="toc-text">1. 好的开端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-概述"><span class="toc-text">2. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-安装工程"><span class="toc-text">3. 安装工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-项目结构"><span class="toc-text">4.项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-实现extension"><span class="toc-text">5. 实现extension</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#找到使用闭包的行"><span class="toc-text">找到使用闭包的行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除闭包里面括号"><span class="toc-text">移除闭包里面括号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新行"><span class="toc-text">更新行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-测试"><span class="toc-text">6. 测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-技巧和窍门"><span class="toc-text">7. 技巧和窍门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Xcode是一个每天都有成千上万开发者使用的IDE（ 集成开发环境），它是一个非棒棒的工具，但是有时候为了提高开发效率你可能想自定义一些它的特性和行为。</p>
+<p>在Xcode 7的时候，开发者可以在Xccode运行的时候通过注入代码去实现插件的功能。插件可以在一个Alcatraz这个优秀的APP上面提交和分发。不过这一切在在Xcode 8上已经不再可能。<br><a id="more"></a></p>
+<p>Xcode 8验证每个库和包以防止恶意代码未经您的许可运行。当Xcode启动的时候，先前通过Alcatraz安装的插件不会再被加载。不是一切都没有了，苹果公司在今年的WWDC上宣布了可以通过开发<strong>Xcode source editor extensions</strong>使得每个人都可以扩展现有的源代码编辑功能。让我们一起来看看通过这些扩展我们能做什么。</p>
+<h2 id="1-好的开端"><a href="#1-好的开端" class="headerlink" title="1. 好的开端"></a>1. 好的开端</h2><p>Xcode 8 source editor extensions 是一个好的开始。如果你使用Xcode工作了一段时间，你可能会迫切地希望一些具体的工作可以在Xcode里面自动完成。Source editor extensions允许第三方应用程序去修改源文件，这可以帮助你提高工作效率。</p>
+<p>现阶段，extensions只能和源代码交互。这就意味着不是每一个Alcatraz的插件都可以被source editor extension取代。但是谁知道未来会带来什么？(译者注：作者的意思苹果会不断完善这个功能的)。</p>
+<p>每个extension都必须要要包含在一个macOS app里面。比如，你可以给你的extensions添加偏好设置和关于它可以用来做什么的解释说明，然后你可以把它提交到Mac App Store。还要注意的是，每个extension运行在独立的进程里面，如果extension崩溃了，Xcode不会崩溃，不过它会提示一个信息表明extension不能完成它的工作了。</p>
+<p>此外，extensions还没有UI交互，它们仅仅能够直接的修改代码当开发者调用相关命令的时候。比如它们不能在后台运行。</p>
+<p>我建议观看<a href="https://developer.apple.com/videos/play/wwdc2016/414/" target="_blank" rel="external"> WWDC 2016 session about source editor extensions</a>，它不仅仅解释了如何开发 Xcode source editor extensions，同时也展示了一些技巧和快捷方式去加速开发。</p>
+<h2 id="2-概述"><a href="#2-概述" class="headerlink" title="2. 概述"></a>2. 概述</h2><p>在这个教程中，我们将开发一个extension用于清楚Swift语言中的闭包语法。Xcode自动使用括号完成了一个闭包语法。不过为了简单起见，我们可以省略它们。这个任务是很容易自动完成的如果把它封装到source editor extension里面。</p>
+<p>我们到底要开发什么呢？简单的解释就是实现一个可以把闭包转化为更简单更清洁语法的extension。下面来看一个具体的例子。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Before</span></div><div class="line">session.dataTask(with: url) &#123; (data, response, error) <span class="keyword">in</span>        </div><div class="line">     </div><div class="line">&#125;</div><div class="line"><span class="comment">// After</span></div><div class="line">session.dataTask(with: url) &#123; data, response, error <span class="keyword">in</span></div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="3-安装工程"><a href="#3-安装工程" class="headerlink" title="3. 安装工程"></a>3. 安装工程</h2><p>首先，需要安装Xcode 8，可以从<a href="https://code.tutsplus.com/tutorials/how-to-create-an-xcode-source-editor-extension--cms-26772" target="_blank" rel="external">Apple’s developer website</a>下载。Xcode 8在OS X 10.11和macOS 10.12都可以运行。</p>
+<p>创建一个新的类型为 <strong>Cocoa Application</strong> 的<strong>OS X</strong>项目,项目命名为 <strong>CleanClosureSyntax </strong> 。确保你是选择的语言是 <strong>swift</strong>，因为在这个教程中将会使用 <strong>Swift 3</strong> 。<br><img src="http://img.blog.csdn.net/20160921001536775" alt="这里写图片描述"><br>创建好项目之后，我们把注意力集中到创建 Xcode source editor extension上面来。打开<strong>File</strong>菜单，选择<strong>New-&gt;Target</strong>,在左边的面板上，选择<strong>OS X</strong>然后从列表中选择 <strong>Xcode Source Editor Extension</strong><br><img src="http://img.blog.csdn.net/20160921001618229" alt="这里写图片描述"><br>点击<strong>Next</strong>然后设置<strong>Product Name</strong>为<strong>Cleaner</strong>，如果Xcode提示你新创建的<strong>Scheme</strong>是否需要激活，点击<strong>Activate</strong>激活<strong>Scheme</strong>。</p>
+<h2 id="4-项目结构"><a href="#4-项目结构" class="headerlink" title="4.项目结构"></a>4.项目结构</h2><p>我们一起来分析一下Xcode给我们创建了什么。打开<strong>Cleaner</strong>去看它包含些什么。<br><img src="http://img.blog.csdn.net/20160921001847553" alt="这里写图片描述"><br>该教程中，我们不会修改 <strong>SourceEditorExtension.swift</strong> ，但是如果以后你要更进一步的自定义extension的话，可能会使用到它。<code>extensionDidFinishLaunching()</code>在extension启动的时候会被调用，如果需要的话开发者可以在此方法里面做一些初始化的东西。<code>commandDefinitions</code>属性的getter方法可以在动态的展示或是隐藏特定的指令的时候使用。</p>
+<p><strong>SourceEditorCommand.swift</strong>是整个extension的核心。在这个文件里面可以实现extension的相关逻辑。<code>perform(with:completionHandler:)</code>方法在用户启动你的extension的时候被调用。<code>XCSourceEditorCommandInvocation</code>对象包含了一个<code>buffer</code>属性，这个属性主要是用来访问当前选中文件的源代码。如果一切顺利的话，<code>completion handler</code>将会以参数为<code>nil</code>进行调用，否则将会给它传递一个<code>NSError</code>实例。</p>
+<h2 id="5-实现extension"><a href="#5-实现extension" class="headerlink" title="5. 实现extension"></a>5. 实现extension</h2><p>现在工程里面已经包含了所有需要的<strong>targets</strong>,我们将要开始开发extension。概况的说，我们将要移除Swift文件中所有闭包里面的括号。主要分以下三步：</p>
+<ul>
+<li>找到包含闭包的行</li>
+<li>从特定的行里面移除两个括号</li>
+<li><p>重置被修改的行（译者注：原文是substitute back the modified line ，结合代码感觉重置比较恰当）</p>
+<p>我们可以使用正则表达式去遍历每一行代码是否含有闭包。如果你想进一步学习正则表达式可以参考Akiel的教程<a href="https://code.tutsplus.com/series/swift-and-regular-expressions-syntax--cms-1036" target="_blank" rel="external">Swift and regular expressions </a>。开发者可以使用<a href="http://regexr.com/" target="_blank" rel="external">RegExr </a>去测试正则表达式。看下面的截图看看我是怎么测试正则表达式的。<br><img src="http://img.blog.csdn.net/20160921001953196" alt="这里写图片描述"><br>打开<strong>SourceEditorCommand.swift </strong>文件修改` perform(with:completionHandler:) 方法为如下</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">(with invocation: XCSourceEditorCommandInvocation, completionHandler: <span class="params">(NSError?)</span></span></span> -&gt; <span class="type">Void</span> ) -&gt; <span class="type">Void</span> &#123;</div><div class="line">    <span class="keyword">var</span> updatedLineIndexes = [<span class="type">Int</span>]()</div><div class="line">         </div><div class="line">    <span class="comment">// 1. Find lines that contain a closure syntax</span></div><div class="line">    <span class="keyword">for</span> lineIndex <span class="keyword">in</span> <span class="number">0</span> ..&lt; invocation.buffer.lines.<span class="built_in">count</span> &#123;</div><div class="line">        <span class="keyword">let</span> line = invocation.buffer.lines[lineIndex] <span class="keyword">as</span>! <span class="type">NSString</span></div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            <span class="keyword">let</span> regex = <span class="keyword">try</span> <span class="type">RegularExpression</span>(pattern: <span class="string">"\\&#123;.*\\(.+\\).+in"</span>, options: .caseInsensitive)</div><div class="line">            <span class="keyword">let</span> range = <span class="type">NSRange</span>(<span class="number">0</span> ..&lt; line.length)</div><div class="line">            <span class="keyword">let</span> results = regex.matches(<span class="keyword">in</span>: line <span class="keyword">as</span> <span class="type">String</span>, options: .reportProgress, range: range)</div><div class="line">            <span class="comment">// 2. When a closure is found, clean up its syntax</span></div><div class="line">            <span class="number">_</span> = results.<span class="built_in">map</span> &#123; result <span class="keyword">in</span></div><div class="line">                <span class="keyword">let</span> cleanLine = line.remove(characters: [<span class="string">"("</span>, <span class="string">")"</span>], <span class="keyword">in</span>: result.range)</div><div class="line">                updatedLineIndexes.append(lineIndex)</div><div class="line">                invocation.buffer.lines[lineIndex] = cleanLine</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> &#123;</div><div class="line">            completionHandler(error <span class="keyword">as</span> <span class="type">NSError</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">         </div><div class="line">    <span class="comment">// 3. If at least a line was changed, create an array of changes and pass it to the buffer selections</span></div><div class="line">    <span class="keyword">if</span> !updatedLineIndexes.isEmpty &#123;</div><div class="line">        <span class="keyword">let</span> updatedSelections: [<span class="type">XCSourceTextRange</span>] = updatedLineIndexes.<span class="built_in">map</span> &#123; lineIndex <span class="keyword">in</span></div><div class="line">            <span class="keyword">let</span> lineSelection = <span class="type">XCSourceTextRange</span>()</div><div class="line">            lineSelection.start = <span class="type">XCSourceTextPosition</span>(line: lineIndex, column: <span class="number">0</span>)</div><div class="line">            lineSelection.end = <span class="type">XCSourceTextPosition</span>(line: lineIndex, column: <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> lineSelection</div><div class="line">        &#125;</div><div class="line">        invocation.buffer.selections.setArray(updatedSelections)</div><div class="line">    &#125;</div><div class="line">    completionHandler(<span class="literal">nil</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="找到使用闭包的行"><a href="#找到使用闭包的行" class="headerlink" title="找到使用闭包的行"></a>找到使用闭包的行</h3><p>首先创建了一个<code>Int</code>类型的数组用于存储我们修改过的行。这样我们就不需要更新所有的行，我们只需要替换掉被修改过的行。</p>
+<p>枚举<code>invocation.buffer</code>对象中所有的行，找出和<code>RegularExpression</code>匹配的对象的。移除掉正则表达式中的转义字符，正则表达式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;.*(.+).+in</div></pre></td></tr></table></figure>
+<p>正则将会匹配当字符串包含如下特性的时候</p>
+<ul>
+<li>有一个花括号（<code>{</code>）,后面跟着若干个字符但是不包括换行符（<code>\n</code>）。</li>
+<li>需要有一个开括号(<code>（</code>),后面跟着若干字符，该部分包含的是闭包的参数。</li>
+<li>然后需要有一个闭括号（<code>)</code>）,后面跟着若干字符，这部分字符是可选返回类型</li>
+<li>最后关键字<code>in</code>需要找到</li>
+</ul>
+<p>如果<code>RegularExpression</code>对象匹配失败，则在调用<code>completionHandler</code>时把error作为参数。如果某一行字符串匹配所有的条件，那就说明闭包已经找到。</p>
+<h3 id="移除闭包里面括号"><a href="#移除闭包里面括号" class="headerlink" title="移除闭包里面括号"></a>移除闭包里面括号</h3><p>当满足条件的闭包被找到后，调用<code>NSString</code>里面的工具方法去移除括号。在调用的时候需要传入闭包的范围（译者注：就是NSRange）从而避免移除闭包之外的其他括号。</p>
+<h3 id="更新行"><a href="#更新行" class="headerlink" title="更新行"></a>更新行</h3><p>最后一步代码检查是否至少有一行被找到。如果条件成立，调用<code>setArray()</code>在正确的位置重置新的代码。此时，传入<code>nil</code>作为参数调用<code>completionHandler</code>，这样Xcode便知道extension完成了正确的工作。</p>
+<p>最后，实现<code>NSString</code>的<code>remove(characters:range:)</code>方法。添加<code>NSString</code>的<code>extension</code>（译者注：此处的extension不同于本文一直讲解的extension，此处是Swift的一种基本语法，是类的扩展）到文件里面。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSString</span> </span>&#123;</div><div class="line">    <span class="comment">// Remove the given characters in the range</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">remove</span><span class="params">(characters: [Character], <span class="keyword">in</span> range: NSRange)</span></span> -&gt; <span class="type">NSString</span> &#123;</div><div class="line">        <span class="keyword">var</span> cleanString = <span class="keyword">self</span></div><div class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> characters &#123;</div><div class="line">            cleanString = cleanString.replacingOccurrences(of: <span class="type">String</span>(char), with: <span class="string">""</span>, options: .caseInsensitiveSearch, range: range)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> cleanString</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="6-测试"><a href="#6-测试" class="headerlink" title="6. 测试"></a>6. 测试</h2><p>Xcode 8 带来了一个非常优秀方法用来测试extensions。首先，如果如果你的Xcode是运行在 <strong>OS X 10.11 El Capitan</strong>的话，打开<strong>Terminal</strong>，执行下面的命令，然后重启Mac。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /usr/libexec/xpccachectl</div></pre></td></tr></table></figure>
+<p>做完以上工作后，选择正确的scheme后编译运行extensions。当询问你去运行哪一个App的时候，查找Xcode并且确保选择了Xcode 8 <strong>Beta</strong>版本（译者注：作者写此文章时候正式版还没有发布），一个新的灰色图标Xcode被打开，这样可以便于开发者区分哪一个Xcode是用来测试extension的。</p>
+<p>在新的Xcode实例中，创建一个新的工程或是打开一个存在的工程。然后执行<strong>Editor &gt; Clean Closure &gt; Source Editor Command</strong>，需要确保在当前的文件里面含有一个闭包。这样就可以看到如下的效果，刚才开发的extension工作了！<br><img src="http://img.blog.csdn.net/20160921002052340" alt="这里写图片描述"><br><strong>Source Editor Command</strong>是命令默认的名字。开发者可以在extension的<strong>Info.plist</strong>文件里面修改。打开之后修改为 <strong>Clean Syntax</strong>。<br><img src="http://img.blog.csdn.net/20160921002225153" alt="这里写图片描述"><br>当然，同样可以设置设置快捷键去自动调用<strong>Clean Syntax</strong>命令。打开Xcode的<strong>Preferences</strong>，选择<strong>Key Bindings</strong> 。搜索<strong>Clean Syntax</strong>，可以看到命令出现了，点击它的右边然后输入你想使用的快捷键，例如：<strong>Command-Alt-Shift-+</strong>。现在，回到源文件，然后使用快捷键就可以直接调用它了。</p>
+<h2 id="7-技巧和窍门"><a href="#7-技巧和窍门" class="headerlink" title="7. 技巧和窍门"></a>7. 技巧和窍门</h2><p>Xcode 8和source editor extensions 依然在测试阶段。下面的一些方法可能会帮助你调试一些你遇到的问题。</p>
+<p>如果你的extension在Xcode的测试实例中变得不可选择，杀掉<strong>com.apple.dt.Xcode.AttachToXPCService</strong>进程然后再次运行extension<br><img src="http://img.blog.csdn.net/20160921002302841" alt="这里写图片描述"><br>仅重置缓存区里面修改过的行，这使得extension运行得更快而且不容易被Xcode杀掉进程。如果Xcode检测到你的extension花费太长时间的话有可能会杀掉它。</p>
+<p>如果想集成多个命令，那就必须分配给每个指令不同的标识，然后使用<code>XCSourceEditorCommandInvocation</code>对象的<code>commandIdentifier</code>属性来识别用户触发的是哪一个。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>创建 Xcode source editor extension 是非常容易的。可以通过创建source editor extension去提高开发的效率，开始吧，动手去做。苹果公司引入了新的方式，广大开发者可以分享签名过的插件通过Mac App Store，这样一方面减轻了自己的工作，另一方面也可以让其他开发者从中受益。</p>
+<p>该教程的代码地址：<a href="https://github.com/BalestraPatrick/CleanClosureXcode" target="_blank" rel="external"> GitHub</a><br><a href="https://code.tutsplus.com/tutorials/how-to-create-an-xcode-source-editor-extension--cms-26772" target="_blank" rel="external">原文地址</a><br>译者补充说明：目前Xcode8很不稳定，我自己在测试的时候Editor下面的命令选项时有时没有。还需要继续跟进和研究，</p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>joyseedog</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.iseedog.com">http://www.iseedog.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.iseedog.com/2016/09/21/xcode-source-editor/">http://www.iseedog.com/2016/09/21/xcode-source-editor/</a>
+    </p>
+
+    <p class="copyright-item lincese">
+      
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Source-Editor-Extension/">Source Editor Extension</a>
+            
+              <a href="/tags/Xcode8插件/">Xcode8插件</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/10/28/ios-tabbar/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">iOS开发进阶-用最简单的方式自定义TabBar</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/09/18/ios-more-stroryBoard/">
+        <span class="next-text nav-default">iOS开发进阶-使用多个StoryBoard划分项目</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:joyseedog@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">joyseedog</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  </body>
+</html>

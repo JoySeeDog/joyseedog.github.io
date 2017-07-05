@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="iOS开发进阶-自定义UIPickView"/>
+
+
+
+
+  <meta name="keywords" content="iOS自定义PickView,自定义PickView," />
+
+
+
+
+  <link rel="alternate" href="/default" title="See me like see you">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://www.iseedog.com/2016/10/28/ios-pickview/"/>
+
+
+<meta name="description" content="苹果一直推崇使用原生的组件，自带的UIPickView其实也很漂亮了，看起来也很美观。但是有时候，产品会有一些特殊的设计和需求。本文将会讲解如何修改苹果原生的组件的属性，达到自定义UIPickView的效果。">
+<meta name="keywords" content="iOS自定义PickView,自定义PickView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发进阶-自定义UIPickView">
+<meta property="og:url" content="http://www.iseedog.com/2016/10/28/ios-pickview/index.html">
+<meta property="og:site_name" content="See me like see you">
+<meta property="og:description" content="苹果一直推崇使用原生的组件，自带的UIPickView其实也很漂亮了，看起来也很美观。但是有时候，产品会有一些特殊的设计和需求。本文将会讲解如何修改苹果原生的组件的属性，达到自定义UIPickView的效果。">
+<meta property="og:image" content="http://img.blog.csdn.net/20161020150523431">
+<meta property="og:image" content="http://img.blog.csdn.net/20161020191424801">
+<meta property="og:image" content="http://img.blog.csdn.net/20161020192742349">
+<meta property="og:image" content="http://img.blog.csdn.net/20161020192611691">
+<meta property="og:image" content="http://img.blog.csdn.net/20161020193948729">
+<meta property="og:updated_time" content="2017-03-20T15:52:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发进阶-自定义UIPickView">
+<meta name="twitter:description" content="苹果一直推崇使用原生的组件，自带的UIPickView其实也很漂亮了，看起来也很美观。但是有时候，产品会有一些特殊的设计和需求。本文将会讲解如何修改苹果原生的组件的属性，达到自定义UIPickView的效果。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161020150523431">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: false,
+    searchPath: "/search.xml",
+    fancybox: false,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> iOS开发进阶-自定义UIPickView · See me like see you </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">See me like see you</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">See me like see you</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          iOS开发进阶-自定义UIPickView
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Oct 28, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改未选中的文字的字体和颜色"><span class="toc-text">修改未选中的文字的字体和颜色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改选中的背景颜色和字体"><span class="toc-text">修改选中的背景颜色和字体</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>苹果一直推崇使用原生的组件，自带的UIPickView其实也很漂亮了，看起来也很美观。但是有时候，产品会有一些特殊的设计和需求。本文将会讲解如何修改苹果原生的组件的属性，达到自定义UIPickView的效果。</p>
+</blockquote>
+<a id="more"></a>
+<p>需求如下。需要自定义一个Tab。自定义选中文字的颜色。自定义选中颜色背景，自定义未选中文字颜色。<br><img src="http://img.blog.csdn.net/20161020150523431" alt="这里写图片描述"></p>
+<h2 id="修改未选中的文字的字体和颜色"><a href="#修改未选中的文字的字体和颜色" class="headerlink" title="修改未选中的文字的字体和颜色"></a>修改未选中的文字的字体和颜色</h2><p>经过分析，上面的取消和确定按钮实现起来还是很简单的。加一个条就好了，我就不介绍具体步骤，下面的没有选中时候文字的样色，已经字体大小，我们都可以在下面的代理方法里面修改。<br><img src="http://img.blog.csdn.net/20161020191424801" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//Change style</div><div class="line">- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view&#123;</div><div class="line">    </div><div class="line">    </div><div class="line">    CGFloat width = [self pickerView:self.pickerView widthForComponent:component];</div><div class="line">    CGFloat rowheight =[self pickerView:self.pickerView rowHeightForComponent:(component)];</div><div class="line">    </div><div class="line">    UIView *myView = [[UIView alloc]init];</div><div class="line">    myView.frame =CGRectMake(0.0f, 0.0f, width, rowheight);</div><div class="line">    UILabel *txtlabel = [[UILabel alloc] init];</div><div class="line">    txtlabel.textColor = self.plainColor;</div><div class="line">    txtlabel.tag=200;</div><div class="line">    txtlabel.font = [UIFont systemFontOfSize:15*SCALE_6];</div><div class="line">    txtlabel.textAlignment  = NSTextAlignmentCenter;</div><div class="line">    txtlabel.frame = myView.frame;</div><div class="line">    txtlabel.text = [self pickerView:pickerView titleForRow:row forComponent:component];</div><div class="line">    </div><div class="line">    [myView addSubview:txtlabel];    </div><div class="line">    return myView;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就可以修改未选中文字的颜色了。</p>
+<h2 id="修改选中的背景颜色和字体"><a href="#修改选中的背景颜色和字体" class="headerlink" title="修改选中的背景颜色和字体"></a>修改选中的背景颜色和字体</h2><p>但是背景颜色和字体如何修改呢。就是下图这个颜色和自体：<br><img src="http://img.blog.csdn.net/20161020192742349" alt="这里写图片描述"></p>
+<p>我一开始尝试了在这种方法，就是在上面加一层Label。然后在代理方法中改变Label的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-(NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component</div><div class="line">&#123;</div><div class="line">    if (component==0) &#123;</div><div class="line">        return self.leftArray[row];</div><div class="line">        </div><div class="line">    &#125;else if(component==1)&#123;</div><div class="line">        return self.rightArray[row];</div><div class="line">    &#125;else &#123;</div><div class="line">    return self.rightArray[row];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>不过这个方法在如果使用手指点击的话，索引值是对不上的，这样的后果就是，Label会一卡一卡的。如果只在这个方法设置Label的值，那快速滑动的时候获取不到值，Label值变化就会很慢。完全没有了原生的那种效果了。</p>
+<p>最后，我才用的是获取系统图层的方法，在选择器的代理方法里面获取相应的图层，然后进行修改。我们先看一下PickView的图层。<br><img src="http://img.blog.csdn.net/20161020192611691" alt="这里写图片描述"></p>
+<p>我们只需要在代理方面里面拿到对应的视图然后修改就好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"> //Change style</div><div class="line">- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view&#123;</div><div class="line">    </div><div class="line">    </div><div class="line">    CGFloat width = [self pickerView:self.pickerView widthForComponent:component];</div><div class="line">    CGFloat rowheight =[self pickerView:self.pickerView rowHeightForComponent:(component)];</div><div class="line">    </div><div class="line">    UIView *myView = [[UIView alloc]init];</div><div class="line">    myView.frame =CGRectMake(0.0f, 0.0f, width, rowheight);</div><div class="line">    UILabel *txtlabel = [[UILabel alloc] init];</div><div class="line">    txtlabel.textColor = self.plainColor;</div><div class="line">    txtlabel.tag=200;</div><div class="line">    txtlabel.font = [UIFont systemFontOfSize:15*SCALE_6];</div><div class="line">    txtlabel.textAlignment  = NSTextAlignmentCenter;</div><div class="line">    txtlabel.frame = myView.frame;</div><div class="line">    txtlabel.text = [self pickerView:pickerView titleForRow:row forComponent:component];</div><div class="line">    </div><div class="line">    [myView addSubview:txtlabel];</div><div class="line">    </div><div class="line">    UIView* topLine   =   [pickerView.subviews objectAtIndex:1];</div><div class="line">    UIView* botomLine   =   [pickerView.subviews objectAtIndex:2];</div><div class="line">    topLine.hidden = YES;</div><div class="line">    botomLine.hidden = YES;</div><div class="line">    </div><div class="line">    BOOL isSetttingBackColor = NO;</div><div class="line">    </div><div class="line">    UIView *subview = [self.pickerView.subviews firstObject];</div><div class="line">    </div><div class="line">    for ( UIView *pickerColumnView in subview.subviews) &#123;</div><div class="line">        </div><div class="line">        NSLog(@&quot;pickerColumnView class %@&quot;,[pickerColumnView class]);</div><div class="line"></div><div class="line">        UIView *pickerView = [pickerColumnView.subviews lastObject];</div><div class="line">        if (!isSetttingBackColor) &#123;</div><div class="line">             pickerView.backgroundColor = self.selectedBackColor;</div><div class="line">            isSetttingBackColor = !isSetttingBackColor;</div><div class="line">        &#125;</div><div class="line">       </div><div class="line">        UIView *tableView = [pickerView.subviews lastObject];</div><div class="line">        for (UIView *cell in tableView.subviews) &#123;</div><div class="line">            NSLog(@&quot;cell class %@&quot;,[cell class]);</div><div class="line">            UIView *cellview  = [cell.subviews lastObject];</div><div class="line">            UIView *labelSuper = [cellview.subviews lastObject];</div><div class="line">            UILabel *label = [labelSuper.subviews lastObject];</div><div class="line">            label.textColor = [UIColor whiteColor];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    return myView;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 下面的代码是用户隐藏pickView自带的两根细线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">UIView* topLine   =   [pickerView.subviews objectAtIndex:1];</div><div class="line">UIView* botomLine   =   [pickerView.subviews objectAtIndex:2];</div><div class="line">topLine.hidden = YES;</div><div class="line">botomLine.hidden = YES;</div></pre></td></tr></table></figure>
+<p>设置是否修改颜色<code>BOOL isSetttingBackColor = NO;</code>这个变量是为了防止多次设置背景颜色。造成相互遮盖。</p>
+<p>最后效果如下：<br><img src="http://img.blog.csdn.net/20161020193948729" alt="这里写图片描述"></p>
+<p>代码地址：<a href="https://github.com/joyseedog/JQCustomPickView" target="_blank" rel="external">JQCustomPickView</a> 如果觉得可以麻烦给个star。谢谢~</p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>joyseedog</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.iseedog.com">http://www.iseedog.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.iseedog.com/2016/10/28/ios-pickview/">http://www.iseedog.com/2016/10/28/ios-pickview/</a>
+    </p>
+
+    <p class="copyright-item lincese">
+      
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/iOS自定义PickView/">iOS自定义PickView</a>
+            
+              <a href="/tags/自定义PickView/">自定义PickView</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2016/10/29/ios-reveal/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">iOS开发进阶-使用Reveal查看任意App的视图结构</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/10/28/ios-tabbar/">
+        <span class="next-text nav-default">iOS开发进阶-用最简单的方式自定义TabBar</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:joyseedog@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">joyseedog</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  </body>
+</html>

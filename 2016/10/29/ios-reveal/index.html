@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="iOS开发进阶-使用Reveal查看任意App的视图结构"/>
+
+
+
+
+  <meta name="keywords" content="Reveal使用,Reveal," />
+
+
+
+
+  <link rel="alternate" href="/default" title="See me like see you">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://www.iseedog.com/2016/10/29/ios-reveal/"/>
+
+
+<meta name="description" content="在他人的App中使用Reveal分析（在没有源码的情况下），无论对于开发人员还是UI设计师都无疑是一个很好的学习途径。本文将讲解如何通过Reveal查看任意App的图层结构。网易新闻是我每天都在使用的新闻阅读软件，本文将以查看网易新闻客户端的视图结构为例，详细叙述所需的步骤。（如何分析自己的App不在本文的讨论范围内）">
+<meta name="keywords" content="Reveal使用,Reveal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发进阶-使用Reveal查看任意App的视图结构">
+<meta property="og:url" content="http://www.iseedog.com/2016/10/29/ios-reveal/index.html">
+<meta property="og:site_name" content="See me like see you">
+<meta property="og:description" content="在他人的App中使用Reveal分析（在没有源码的情况下），无论对于开发人员还是UI设计师都无疑是一个很好的学习途径。本文将讲解如何通过Reveal查看任意App的图层结构。网易新闻是我每天都在使用的新闻阅读软件，本文将以查看网易新闻客户端的视图结构为例，详细叙述所需的步骤。（如何分析自己的App不在本文的讨论范围内）">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029135752173">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029135926048">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029140355195">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029141542666">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029141612494">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029141703588">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029141930558">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029142138718">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029140722302">
+<meta property="og:image" content="http://img.blog.csdn.net/20161029144430390">
+<meta property="og:updated_time" content="2017-03-20T15:53:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发进阶-使用Reveal查看任意App的视图结构">
+<meta name="twitter:description" content="在他人的App中使用Reveal分析（在没有源码的情况下），无论对于开发人员还是UI设计师都无疑是一个很好的学习途径。本文将讲解如何通过Reveal查看任意App的图层结构。网易新闻是我每天都在使用的新闻阅读软件，本文将以查看网易新闻客户端的视图结构为例，详细叙述所需的步骤。（如何分析自己的App不在本文的讨论范围内）">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161029135752173">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: false,
+    searchPath: "/search.xml",
+    fancybox: false,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+
+
+    <title> iOS开发进阶-使用Reveal查看任意App的视图结构 · See me like see you </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">See me like see you</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">See me like see you</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              Tags
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          iOS开发进阶-使用Reveal查看任意App的视图结构
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Oct 29, 2016
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS设备配置"><span class="toc-text">iOS设备配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装OpenSSH"><span class="toc-text">安装OpenSSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Cydia-Substrate"><span class="toc-text">安装Cydia Substrate</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建plist文件"><span class="toc-text">创建plist文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将Reveal库文件拷贝到设备中"><span class="toc-text">将Reveal库文件拷贝到设备中</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接设备"><span class="toc-text">连接设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拷贝-Reveal-framework"><span class="toc-text">拷贝 Reveal.framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拷贝-libReveal-dylib"><span class="toc-text">拷贝 libReveal.dylib</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拷贝-libReveal-plist"><span class="toc-text">拷贝 libReveal.plist</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看结果"><span class="toc-text">查看结果</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>在他人的App中使用Reveal分析（在没有源码的情况下），无论对于开发人员还是UI设计师都无疑是一个很好的学习途径。本文将讲解如何通过Reveal查看任意App的图层结构。网易新闻是我每天都在使用的新闻阅读软件，本文将以查看网易新闻客户端的视图结构为例，详细叙述所需的步骤。（如何分析自己的App不在本文的讨论范围内）</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>一台Mac电脑，电脑需要安装Reveal软件，考虑到版权原因具体怎么找到破解版试用版这里不多说，自己百度搜搜就好,确保应用安装在Mac的应用程序目录下，否则下文的目录需要修改自己的目录。然后需要一台越狱的iOS设备，机型随意。本文使用的是iPod touch。</p>
+<h2 id="iOS设备配置"><a href="#iOS设备配置" class="headerlink" title="iOS设备配置"></a>iOS设备配置</h2><p>越狱后在iOS设备上会自动安装Cydia商店。如下图所示<br><img src="http://img.blog.csdn.net/20161029135752173" alt="这里写图片描述"></p>
+<h3 id="安装OpenSSH"><a href="#安装OpenSSH" class="headerlink" title="安装OpenSSH"></a>安装OpenSSH</h3><p>打开应用商店搜索<code>OpenSSH</code>，然后点击安装就可。</p>
+<p><img src="http://img.blog.csdn.net/20161029135926048" alt="这里写图片描述"></p>
+<h3 id="安装Cydia-Substrate"><a href="#安装Cydia-Substrate" class="headerlink" title="安装Cydia Substrate"></a>安装Cydia Substrate</h3><p>同理搜索安装<code>Cydia Substrate</code>，点击安装即可。</p>
+<p><img src="http://img.blog.csdn.net/20161029140355195" alt="这里写图片描述"></p>
+<h2 id="创建plist文件"><a href="#创建plist文件" class="headerlink" title="创建plist文件"></a>创建plist文件</h2><p>首先需要获取设备的bundle id。怎么获取呢，这个有很多的办法，第一种是直接在itune里面下载应用然后解压之后，显示包内容然后就可以看到info.plist，进而可以看到bundle id了。<br><img src="http://img.blog.csdn.net/20161029141542666" alt="这里写图片描述"><br>然后<br><img src="http://img.blog.csdn.net/20161029141612494" alt="这里写图片描述"></p>
+<p>也可以用iTools这个工具查看手机上安装的所有应用的bundle id。<br><img src="http://img.blog.csdn.net/20161029141703588" alt="这里写图片描述"></p>
+<p>最后还可以使用越狱后的iOS设备自带的软件iFile<br><img src="http://img.blog.csdn.net/20161029141930558" alt="这里写图片描述"><br>以上的目的都是为了获取bundle id而已。自己挑一个方便的使用就好。</p>
+<p>使用Xcode创建一个名为<code>libReveal</code>的plist文件。plist文件格式如下，然后把需要查看应用的bundle id都写到里面即可。<br><img src="http://img.blog.csdn.net/20161029142138718" alt="这里写图片描述"></p>
+<h2 id="将Reveal库文件拷贝到设备中"><a href="#将Reveal库文件拷贝到设备中" class="headerlink" title="将Reveal库文件拷贝到设备中"></a>将Reveal库文件拷贝到设备中</h2><h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>首先让越狱设备和Mac在同一个wifi内。然后点击所连接的wifi查看iOS设备的IP地址。（一定要确保在同一个wifi下，很多出问题的原因都是这个引起的）<br><img src="http://img.blog.csdn.net/20161029140722302" alt="这里写图片描述"></p>
+<h3 id="拷贝-Reveal-framework"><a href="#拷贝-Reveal-framework" class="headerlink" title="拷贝 Reveal.framework"></a>拷贝 Reveal.framework</h3><p>打开终端，输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r /Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework root@192.168.1.xx:/System/Library/Frameworks</div></pre></td></tr></table></figure>
+<p><code>192.168.1.xx</code> 是自己手机的iP地址，下同。<br>输入之后系统会询问你是否连接，输入yes即可，下同。<br>接着会询问你输入密码，密码是<code>alpine</code>，下同。</p>
+<h3 id="拷贝-libReveal-dylib"><a href="#拷贝-libReveal-dylib" class="headerlink" title="拷贝 libReveal.dylib"></a>拷贝 libReveal.dylib</h3><p>同理打开终端输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r /Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/libReveal.dylib root@192.168.1.xx:/Library/MobileSubstrate/DynamicLibraries</div></pre></td></tr></table></figure>
+<h3 id="拷贝-libReveal-plist"><a href="#拷贝-libReveal-plist" class="headerlink" title="拷贝 libReveal.plist"></a>拷贝 libReveal.plist</h3><p>同样也是使用终端拷贝libReveal.plist ，文件所在目录需要修改为自己的目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r  /Users/jianquan/Downloads/libReveal.plist root@192.168.1.149:/Library/MobileSubstrate/DynamicLibraries</div></pre></td></tr></table></figure></p>
+<h2 id="查看结果"><a href="#查看结果" class="headerlink" title="查看结果"></a>查看结果</h2><p>重启应用和Reveal。如果应用已经打开记得杀死应用再启动。切换页面之后，可以使用右上角的刷新按钮进行刷新。<br><img src="http://img.blog.csdn.net/20161029144430390" alt="这里写图片描述"></p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>joyseedog</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.iseedog.com">http://www.iseedog.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.iseedog.com/2016/10/29/ios-reveal/">http://www.iseedog.com/2016/10/29/ios-reveal/</a>
+    </p>
+
+    <p class="copyright-item lincese">
+      
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Reveal使用/">Reveal使用</a>
+            
+              <a href="/tags/Reveal/">Reveal</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2016/10/28/ios-pickview/">
+        <span class="next-text nav-default">iOS开发进阶-自定义UIPickView</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:joyseedog@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">joyseedog</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  </body>
+</html>
